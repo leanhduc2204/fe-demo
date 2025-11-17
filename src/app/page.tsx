@@ -48,6 +48,7 @@ export default function Home() {
   const [errorMessage, setErrorMessage] = useState("");
   const clobClientRef = useRef<ClobClient | null>(null);
   const clobClientParamsRef = useRef<string>("");
+  const isRunningRef = useRef<boolean>(false);
 
   // Khởi tạo ClobClient một lần và tạo lại khi tham số thay đổi
   useEffect(() => {
@@ -350,9 +351,18 @@ export default function Home() {
 
   async function fetchJob() {
     const walletFetchedTimestampMap: Record<string, number> = {};
-    while (true) {
+    while (isRunningRef.current) {
+      // Kiểm tra lại trạng thái trước mỗi lần lặp
+      if (!isRunningRef.current) {
+        break;
+      }
+
       const fetchTasks = [];
       for (const walletAddress of copyWallets) {
+        // Kiểm tra lại trạng thái trước khi thêm task
+        if (!isRunningRef.current) {
+          break;
+        }
         fetchTasks.push(
           fetchAndCopyTrades(
             walletAddress,
@@ -360,6 +370,12 @@ export default function Home() {
           )
         );
       }
+
+      // Nếu đã dừng, không cần chờ kết quả
+      if (!isRunningRef.current) {
+        break;
+      }
+
       const results = await Promise.all(fetchTasks);
       results.forEach((item) => {
         if (item) {
@@ -367,8 +383,15 @@ export default function Home() {
             item.lastFetchedTimestamp;
         }
       });
+
+      // Kiểm tra lại trước khi sleep
+      if (!isRunningRef.current) {
+        break;
+      }
+
       await sleep(100);
     }
+    console.log("fetchJob đã dừng");
   }
 
   const handleStart = () => {
@@ -387,11 +410,17 @@ export default function Home() {
       return;
     }
     const newRunningState = !isRunning;
+
+    // Cập nhật ref trước để fetchJob có thể kiểm tra ngay
+    isRunningRef.current = newRunningState;
     setIsRunning(newRunningState);
 
     // Nếu đang start, chạy ngay lập tức lần đầu
     if (newRunningState) {
       fetchJob();
+    } else {
+      // Nếu đang stop, ref đã được set thành false ở trên
+      console.log("Đã dừng fetchJob");
     }
   };
 
