@@ -94,9 +94,7 @@ export default function Home() {
   }, [signerPk, key, secret, passphrase, funderWallet]);
 
   async function getCertKey() {
-    const signer = new Wallet(
-      "ccfeef39fa6a23c0aa228e94933b096a71ac6d9965b4d7197f5b42f9af38981f"
-    );
+    const signer = new Wallet(signerPk);
     const creds = await new ClobClient(
       host,
       137,
