@@ -503,7 +503,7 @@ export default function Home() {
                       isRunning ? "bg-gray-100" : ""
                     }`}
                     placeholder="Nhập Signer PK"
-                    readOnly={isRunning}
+                    disabled={isRunning}
                   />
                   <button
                     type="button"
@@ -603,7 +603,7 @@ export default function Home() {
                       : "border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                   } ${isRunning ? "bg-gray-100" : ""}`}
                   placeholder="Nhập Funder Wallet"
-                  readOnly={isRunning}
+                  disabled={isRunning}
                 />
                 {funderWalletError && (
                   <p className="mt-1 text-sm text-red-600">
@@ -632,7 +632,7 @@ export default function Home() {
                   type="text"
                   id="key"
                   value={key}
-                  readOnly
+                  disabled
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50 text-gray-700 cursor-not-allowed"
                   placeholder=""
                 />
@@ -650,7 +650,7 @@ export default function Home() {
                     type={showSecret ? "text" : "password"}
                     id="secret"
                     value={secret}
-                    readOnly
+                    disabled
                     className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm bg-gray-50 text-gray-700 cursor-not-allowed"
                     placeholder=""
                   />
@@ -712,7 +712,7 @@ export default function Home() {
                     type={showPassphrase ? "text" : "password"}
                     id="passphrase"
                     value={passphrase}
-                    readOnly
+                    disabled
                     className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm bg-gray-50 text-gray-700 cursor-not-allowed"
                     placeholder=""
                   />
@@ -835,7 +835,7 @@ export default function Home() {
                         : "border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                     }`}
                     placeholder="Nhập Copy wallets"
-                    readOnly={isRunning}
+                    disabled={isRunning}
                   />
                   {copyWalletErrors[index] && (
                     <p className="mt-1 text-sm text-red-600">
@@ -911,7 +911,7 @@ export default function Home() {
                   isRunning ? "bg-gray-100" : ""
                 }`}
                 placeholder="Nhập Ratio"
-                readOnly={isRunning}
+                disabled={isRunning}
               />
             </div>
 
@@ -957,7 +957,7 @@ export default function Home() {
                   isRunning ? "bg-gray-100" : ""
                 }`}
                 placeholder="Nhập Min Size"
-                readOnly={isRunning}
+                disabled={isRunning}
               />
             </div>
 
@@ -1045,7 +1045,7 @@ export default function Home() {
                   marketOrder ? "bg-gray-100" : ""
                 } ${isRunning ? "bg-gray-100" : ""}`}
                 placeholder={marketOrder ? "" : "Nhập Slippage"}
-                readOnly={marketOrder || isRunning}
+                disabled={marketOrder || isRunning}
               />
             </div>
             <button
