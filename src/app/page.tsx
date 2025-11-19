@@ -487,8 +487,7 @@ export default function Home() {
                         <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-1">
                           <div className="border-4 border-transparent border-t-gray-800"></div>
                         </div>
-                        Mô tả về Signer PK: Khóa công khai của người ký được sử
-                        dụng để xác thực giao dịch.
+                        Private Key của ví dùng để đăng nhập Polymarket
                       </div>
                     </div>
                   </div>
@@ -579,8 +578,8 @@ export default function Home() {
                         <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-1">
                           <div className="border-4 border-transparent border-t-gray-800"></div>
                         </div>
-                        Mô tả về Funder Wallet: Địa chỉ ví của người tài trợ
-                        được sử dụng để thực hiện các giao dịch tài chính.
+                        Địa chỉ ví Polymarket của user (COpy trong trang profile
+                        của Polymarket)
                       </div>
                     </div>
                   </div>
@@ -616,9 +615,34 @@ export default function Home() {
 
           {/* Box API Info */}
           <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-6 w-full">
-            <h2 className="text-xl font-semibold text-gray-800 mb-6">
-              API Info
-            </h2>
+            <div className="flex items-center gap-2 mb-6">
+              <h2 className="text-xl font-semibold text-gray-800">API Info</h2>
+              <div className="relative group">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4 text-gray-400 cursor-help hover:text-gray-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block z-10">
+                  <div className="bg-gray-800 text-white text-xs rounded py-2 px-3 w-48 shadow-lg">
+                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-1">
+                      <div className="border-4 border-transparent border-t-gray-800"></div>
+                    </div>
+                    Hoàn thành các trường Signer PK và Funder Wallet để lấy
+                    thông tin
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <div className="space-y-4">
               <div>
@@ -815,8 +839,7 @@ export default function Home() {
                           <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-1">
                             <div className="border-4 border-transparent border-t-gray-800"></div>
                           </div>
-                          Mô tả về Copy wallets: Danh sách các ví cần sao chép
-                          cấu hình.
+                          List các Polymarket cần copy
                         </div>
                       </div>
                     </div>
@@ -897,7 +920,8 @@ export default function Home() {
                       <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-1">
                         <div className="border-4 border-transparent border-t-gray-800"></div>
                       </div>
-                      Mô tả về Ratio: Tỷ lệ phân bổ cho mỗi ví trong danh sách.
+                      tỉ lệ so với lệnh cần copy (VD: copy_size = target_size *
+                      Ratio)
                     </div>
                   </div>
                 </div>
@@ -943,7 +967,7 @@ export default function Home() {
                       <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-1">
                         <div className="border-4 border-transparent border-t-gray-800"></div>
                       </div>
-                      Mô tả về Min Size: Kích thước tối thiểu cho mỗi giao dịch.
+                      Size lệnh nhỏ nhất user có thể BID (Nên = 5)
                     </div>
                   </div>
                 </div>
@@ -966,7 +990,12 @@ export default function Home() {
                 type="checkbox"
                 id="market-order"
                 checked={marketOrder}
-                onChange={(e) => setMarketOrder(e.target.checked)}
+                onChange={(e) => {
+                  setMarketOrder(e.target.checked);
+                  if (e.target.checked) {
+                    setSlippage("");
+                  }
+                }}
                 className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
               />
               <label
@@ -994,8 +1023,8 @@ export default function Home() {
                       <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-1">
                         <div className="border-4 border-transparent border-t-gray-800"></div>
                       </div>
-                      Mô tả về Market order: Đặt lệnh theo giá thị trường hiện
-                      tại.
+                      Luôn mua với giá market (Nếu ticked trường slippage sẽ vô
+                      hiệu hoá)
                     </div>
                   </div>
                 </div>
@@ -1029,8 +1058,8 @@ export default function Home() {
                         <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-1">
                           <div className="border-4 border-transparent border-t-gray-800"></div>
                         </div>
-                        Mô tả về Slippage: Cho phép chênh lệch giá khi thực hiện
-                        giao dịch.
+                        % trượt giá so với lệnh copy có thể chấp nhận (Bị vô
+                        hiệu khi market order tickede)
                       </div>
                     </div>
                   </div>
