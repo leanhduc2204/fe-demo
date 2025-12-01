@@ -458,7 +458,7 @@ export default function WalletDetailPage() {
                                 />
                               )}
                             </td>
-                            <td className="px-4 py-3 text-sm text-gray-700">
+                            <td className="px-4 py-3 text-sm text-gray-700 cursor-pointer hover:text-blue-600 hover:underline transition-colors duration-200">
                               <a
                                 href={row.link}
                                 target="_blank"
