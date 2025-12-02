@@ -1,12 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
-import { ClobClient, OrderType, Side } from "@polymarket/clob-client";
 import { Wallet } from "@ethersproject/wallet";
-import { isAddress } from "ethers";
+import { ClobClient, OrderType, Side } from "@polymarket/clob-client";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { isAddress } from "ethers";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const host = "https://clob.polymarket.com";
 const signatureType = 2;
@@ -50,7 +49,6 @@ interface CopyWalletSearchResponse {
 }
 
 export default function Home() {
-  const router = useRouter();
   const [signerPk, setSignerPk] = useState("");
   const [funderWallet, setFunderWallet] = useState("");
   const [key, setKey] = useState("");

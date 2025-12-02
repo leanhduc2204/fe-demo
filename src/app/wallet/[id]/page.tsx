@@ -22,6 +22,8 @@ interface TableRow {
   share: string;
   value: string;
   price: string;
+  pnl_percent?: string;
+  pnl_amount?: string;
 }
 
 interface StatSearchResponse {
@@ -38,6 +40,8 @@ interface StatSearchResponse {
     share?: string;
     value?: string;
     price?: string;
+    pnl_percent?: string;
+    pnl_amount?: string;
     [key: string]: unknown;
   }>;
 }
@@ -183,6 +187,8 @@ export default function WalletDetailPage() {
             outcome: item.outcome || "",
             share: item.share || "",
             value: item.value || "",
+            pnl_percent: item.pnl_percent || "",
+            pnl_amount: item.pnl_amount || "",
           }));
 
           // Only update state if data has changed
@@ -430,6 +436,11 @@ export default function WalletDetailPage() {
                       <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
                         Value $
                       </th>
+                      {activeTab === "position" && (
+                        <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                          PnL
+                        </th>
+                      )}
                     </tr>
                   </thead>
                   <tbody>
@@ -437,7 +448,7 @@ export default function WalletDetailPage() {
                       loadingPosition ? (
                         <tr>
                           <td
-                            colSpan={5}
+                            colSpan={7}
                             className="px-4 py-8 text-center text-sm text-gray-500"
                           >
                             Đang tải...
@@ -479,12 +490,44 @@ export default function WalletDetailPage() {
                             <td className="px-4 py-3 text-sm text-gray-700">
                               ${formatNumber(row.value)}
                             </td>
+                            <td className="px-4 py-3 text-sm">
+                              <div className="flex flex-col">
+                                {row.pnl_percent ? (
+                                  <span
+                                    className={
+                                      row.pnl_percent.startsWith("-")
+                                        ? "text-red-600"
+                                        : "text-green-600"
+                                    }
+                                  >
+                                    {row.pnl_percent}
+                                  </span>
+                                ) : (
+                                  <span className="text-gray-400">—</span>
+                                )}
+                                {row.pnl_amount ? (
+                                  <span
+                                    className={`text-xs mt-1 ${
+                                      row.pnl_amount.startsWith("-")
+                                        ? "text-red-600"
+                                        : "text-gray-600"
+                                    }`}
+                                  >
+                                    {formatNumber(row.pnl_amount)}
+                                  </span>
+                                ) : (
+                                  <span className="text-xs text-gray-400 mt-1">
+                                    —
+                                  </span>
+                                )}
+                              </div>
+                            </td>
                           </tr>
                         ))
                       ) : (
                         <tr>
                           <td
-                            colSpan={6}
+                            colSpan={7}
                             className="px-4 py-8 text-center text-sm text-gray-500"
                           >
                             Không có dữ liệu
