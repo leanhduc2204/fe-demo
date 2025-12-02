@@ -12,7 +12,8 @@ export async function POST(req: Request) {
       );
     }
 
-    const url = "http://192.168.1.26:18080/api/config/addCopyWallet";
+    const url =
+      "http://polymarketcopytrading.0xtris.xyz/botServer/api/config/addCopyWallet";
     const response = await axios.post(url, body, {
       headers: {
         "Content-Type": "application/json",

@@ -13,7 +13,7 @@ export async function GET(req: Request) {
       );
     }
 
-    const url = `http://192.168.1.26:18080/api/wallet/info?walletId=${walletId}`;
+    const url = `http://polymarketcopytrading.0xtris.xyz/botServer/api/wallet/info?walletId=${walletId}`;
     const response = await axios.get(url);
 
     return NextResponse.json(response.data);

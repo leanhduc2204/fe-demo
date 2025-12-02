@@ -12,7 +12,8 @@ export async function POST(req: Request) {
       );
     }
 
-    const url = "http://192.168.1.26:18080/api/config/copyWalletSearch";
+    const url =
+      "http://polymarketcopytrading.0xtris.xyz/botServer/api/config/copyWalletSearch";
     const response = await axios.post(url, body, {
       headers: {
         "Content-Type": "application/json",

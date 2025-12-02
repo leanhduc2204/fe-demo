@@ -3,7 +3,8 @@ import axios from "axios";
 
 export async function GET() {
   try {
-    const url = "http://192.168.1.26:18080/api/config/currentConfig";
+    const url =
+      "http://polymarketcopytrading.0xtris.xyz/botServer/api/config/currentConfig";
     const response = await axios.get(url);
 
     return NextResponse.json(response.data);

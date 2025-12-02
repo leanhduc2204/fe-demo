@@ -5,7 +5,8 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    const url = "http://192.168.1.26:18080/api/config/updateConfig";
+    const url =
+      "http://polymarketcopytrading.0xtris.xyz/botServer/api/config/updateConfig";
     const response = await axios.post(url, body, {
       headers: {
         "Content-Type": "application/json",
