@@ -86,19 +86,13 @@ export default function WalletDetailPage() {
   return (
     <div className="min-h-screen bg-white p-4">
       <div className="w-full max-w-7xl mx-auto">
-        {loading && (
-          <div className="text-center py-8">
-            <p className="text-gray-600">Đang tải...</p>
-          </div>
-        )}
-
         {error && (
           <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
             <p className="text-red-800">{error}</p>
           </div>
         )}
 
-        {walletDetail && !loading && (
+        {walletDetail && (
           <div className="space-y-6">
             <WalletInfo walletDetail={walletDetail} />
 

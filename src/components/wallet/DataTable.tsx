@@ -42,16 +42,7 @@ export function DataTable({ data, loading, activeTab }: DataTableProps) {
           </tr>
         </thead>
         <tbody>
-          {loading ? (
-            <tr>
-              <td
-                colSpan={colSpan}
-                className="px-4 py-8 text-center text-sm text-gray-500"
-              >
-                Đang tải...
-              </td>
-            </tr>
-          ) : data.length > 0 ? (
+          {data.length > 0 ? (
             data.map((row, index) => (
               <TableRowComponent key={index} row={row} showPnL={showPnL} />
             ))
