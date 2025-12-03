@@ -16,6 +16,7 @@ export default function WalletDetailPage() {
   const [activeTab, setActiveTab] = useState<TabType>("position");
   const [positionPageNumber, setPositionPageNumber] = useState(0);
   const [activityPageNumber, setActivityPageNumber] = useState(0);
+  const [pageSize, setPageSize] = useState(100);
 
   const { walletDetail, loading, error } = useWalletDetail(id);
 
@@ -23,22 +24,26 @@ export default function WalletDetailPage() {
     data: positionData,
     loading: loadingPosition,
     totalPages: positionTotalPages,
+    refresh: refreshPosition,
   } = useStatSearch({
     walletId: id,
     tab: "position",
     activeTab,
     pageNumber: positionPageNumber,
+    pageSize,
   });
 
   const {
     data: activityData,
     loading: loadingActivity,
     totalPages: activityTotalPages,
+    refresh: refreshActivity,
   } = useStatSearch({
     walletId: id,
     tab: "activity",
     activeTab,
     pageNumber: activityPageNumber,
+    pageSize,
   });
 
   const handlePreviousPage = () => {
@@ -68,6 +73,15 @@ export default function WalletDetailPage() {
   const currentData = activeTab === "position" ? positionData : activityData;
   const currentLoading =
     activeTab === "position" ? loadingPosition : loadingActivity;
+  const handleRefresh =
+    activeTab === "position" ? refreshPosition : refreshActivity;
+
+  const handlePageSizeChange = (newPageSize: number) => {
+    setPageSize(newPageSize);
+    // Reset page number to 0 when page size changes
+    setPositionPageNumber(0);
+    setActivityPageNumber(0);
+  };
 
   return (
     <div className="min-h-screen bg-white p-4">
@@ -89,7 +103,14 @@ export default function WalletDetailPage() {
             <WalletInfo walletDetail={walletDetail} />
 
             <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6">
-              <Tabs activeTab={activeTab} onTabChange={setActiveTab} />
+              <Tabs
+                activeTab={activeTab}
+                onTabChange={setActiveTab}
+                onRefresh={handleRefresh}
+                isLoading={currentLoading}
+                pageSize={pageSize}
+                onPageSizeChange={handlePageSizeChange}
+              />
               <DataTable
                 data={currentData}
                 loading={currentLoading}

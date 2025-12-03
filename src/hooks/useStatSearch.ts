@@ -1,14 +1,12 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import type { TableRow, StatSearchResponse, TabType } from "@/types/wallet";
-
-const REFRESH_INTERVAL = 2500;
-const PAGE_SIZE = 10;
 
 interface UseStatSearchParams {
   walletId: string | undefined;
   tab: TabType;
   activeTab: TabType;
   pageNumber: number;
+  pageSize: number;
 }
 
 export function useStatSearch({
@@ -16,23 +14,23 @@ export function useStatSearch({
   tab,
   activeTab,
   pageNumber,
+  pageSize,
 }: UseStatSearchParams) {
   const [data, setData] = useState<TableRow[]>([]);
   const [loading, setLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
   const dataRef = useRef<TableRow[]>([]);
   const totalPagesRef = useRef<number>(1);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
+  const fetchData = useCallback(
+    async (showLoading = false) => {
       if (!walletId || activeTab !== tab) return;
 
       const isFirstFetch =
         dataRef.current.length === 0 ||
-        pageNumber !== Math.floor((dataRef.current.length - 1) / PAGE_SIZE);
+        pageNumber !== Math.floor((dataRef.current.length - 1) / pageSize);
 
-      if (isFirstFetch) {
+      if (isFirstFetch || showLoading) {
         setLoading(true);
       }
 
@@ -44,7 +42,7 @@ export function useStatSearch({
           },
           body: JSON.stringify({
             page_number: pageNumber,
-            page_size: PAGE_SIZE,
+            page_size: pageSize,
             wallet_id: Number(walletId),
             tab: tab === "position" ? "POSITIONS" : "ACTIVITIES",
           }),
@@ -86,31 +84,22 @@ export function useStatSearch({
       } catch (err) {
         console.error(`Error fetching ${tab} data:`, err);
       } finally {
-        if (isFirstFetch) {
+        if (isFirstFetch || showLoading) {
           setLoading(false);
         }
       }
-    };
+    },
+    [walletId, tab, activeTab, pageNumber, pageSize]
+  );
 
+  useEffect(() => {
     // Fetch immediately
     fetchData();
+  }, [fetchData]);
 
-    // Set up interval to fetch every 2.5 seconds (only when tab is active)
-    if (activeTab === tab) {
-      intervalRef.current = setInterval(() => {
-        fetchData();
-      }, REFRESH_INTERVAL);
-    }
+  const refresh = useCallback(() => {
+    fetchData(true);
+  }, [fetchData]);
 
-    // Cleanup interval on unmount or dependencies change
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
-    };
-  }, [walletId, tab, activeTab, pageNumber]);
-
-  return { data, loading, totalPages };
+  return { data, loading, totalPages, refresh };
 }
-

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import type { WalletDetail } from "@/types/wallet";
 
-const REFRESH_INTERVAL = 2500;
+const REFRESH_INTERVAL = 5000;
 
 export function useWalletDetail(walletId: string | undefined) {
   const [walletDetail, setWalletDetail] = useState<WalletDetail | null>(null);
